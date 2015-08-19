@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>.</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+  <Import Project=".build\MSBuild.Community.Tasks.Targets" />
+
+  <!-- Project files -->
+  <PropertyGroup>
+    <ProjectSolution>Tinamous.IFTTTBot.sln</ProjectSolution>
+    <SystemTestSolution>AnalysisUK.Tinamous.IFTTTBot.SystemTests.sln</SystemTestSolution>
+    <DeploymentProject>AnalysisUK.Tinamous.IFTTTBot.ServiceHost\AnalysisUK.Tinamous.IFTTTBot.ServiceHost.csproj</DeploymentProject>
+    <BuildOutputFolder>C:\BuildOutput\Tinamous.IFTTTBot</BuildOutputFolder>
+    <VerisonFile>.\Version.txt</VerisonFile>
+    <Configuration Condition=" '$(Configuration)'=='' ">Debug</Configuration>
+    <CCNetLabel Condition=" '$(CCNetLabel)' == '' ">0.0.0.1</CCNetLabel>
+  </PropertyGroup>
+
+  <!-- Deployment Settings -->
+  <PropertyGroup>
+    <!-- NuGet -->
+    <MyGetServer Condition=" '$(MyGetServer)'=='' ">https://www.myget.org/F/tinamousdev/api/v2/package</MyGetServer>
+    <MyGetPublicServer Condition=" '$(MyGetPublicServer)'=='' ">https://www.myget.org/F/tinamous/api/v2/package</MyGetPublicServer>
+    <MyGetApiKey Condition=" '$(MyGetApiKey)'=='' ">0307badc-37a7-4b0a-afaf-adde857d3a76</MyGetApiKey>
+
+    <!-- Local folder for NuGet packages to be copied to -->
+    <!-- This is not for deployment NuGet packages -->
+    <LocalNuGetServer Condition=" '$(LocalNuGetServer)'=='' ">C:\NuGetDev</LocalNuGetServer>
+    <NuGetOutputDirectory>.\Build\NuGetPackages</NuGetOutputDirectory>
+  </PropertyGroup>
+
+  <!-- List of projects that should have NuGet packages created for them -->
+  <ItemGroup>
+  	<NugetProjects Include=".\AnalysisUK.Tinamous.IFTTTBot.Messaging\AnalysisUK.Tinamous.IFTTTBot.Messaging.csproj" />
+  </ItemGroup>
+
+  <!-- Octopus Deployment Settings -->
+  <PropertyGroup>
+    <PathToOctopusTools>packages\OctopusTools.2.6.3.59\</PathToOctopusTools>
+    <OctopusServer Condition=" '$(OctopusServer)'=='' ">http://octopus.analysisuk.com</OctopusServer>
+    <OctoPackPublishPackageToHttp Condition=" '$(OctoPackPublishPackageToHttp)'=='' ">http://octopus.analysisuk.com/nuget/packages</OctoPackPublishPackageToHttp>
+    <OctopusApiKey Condition=" '$(OctopusApiKey)'=='' "></OctopusApiKey>
+    <OctopusProject>Tinamous.IFTTTBot</OctopusProject>
+  </PropertyGroup>
+
+  <!-- Tools -->
+  <PropertyGroup>
+    <NUnitExe>packages\NUnit.Runners.2.6.4\tools\NUnit-Console.exe /nologo /framework:net-4.0</NUnitExe>
+    <NuGet>packages\NuGet.CommandLine.2.8.6\tools\NuGet.exe</NuGet>
+  </PropertyGroup>
+  
+</Project>
